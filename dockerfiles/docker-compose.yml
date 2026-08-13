@@ -1,0 +1,29 @@
+services:
+  db:
+    image: mysql
+    container_name: stock-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: stock_system
+    ports:
+      - "3306:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  phpmyadmin:
+    image: phpmyadmin
+    container_name: stock-phpmyadmin
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+      MYSQL_ROOT_PASSWORD: root
+      UPLOAD_LIMIT: 300M
+    ports:
+      - "8888:80"
+    depends_on:
+      db:
+        condition: service_healthy
