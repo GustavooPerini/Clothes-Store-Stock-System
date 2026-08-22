@@ -1,35 +1,38 @@
-package br.com.gustavoperini.stocksystem.model;
+package br.com.gustavoperini.stocksystem.dto;
 
 import java.math.BigDecimal;
 
+import br.com.gustavoperini.stocksystem.model.Product;
 import br.com.gustavoperini.stocksystem.utils.enums.ClotheSize;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 
-@Entity
-public class Product {
+public class ProductResponseDto {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(nullable = false)
     private String name;
-
-    @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
     private ClotheSize size;
-
-    @Column(nullable = false)
     private int stockQuantity;
-
-    @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal unitPrice;
+
+    public ProductResponseDto() {
+    }
+
+    public ProductResponseDto(Long id, String name, ClotheSize size, int stockQuantity, BigDecimal unitPrice) {
+        this.id = id;
+        this.name = name;
+        this.size = size;
+        this.stockQuantity = stockQuantity;
+        this.unitPrice = unitPrice;
+    }
+
+    public static ProductResponseDto fromEntity(Product product) {
+        return new ProductResponseDto(
+                product.getId(),
+                product.getName(),
+                product.getSize(),
+                product.getStockQuantity(),
+                product.getUnitPrice()
+        );
+    }
 
     public Long getId() {
         return id;

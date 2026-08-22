@@ -1,24 +1,29 @@
 package br.com.gustavoperini.stocksystem.dto;
 
+import java.math.BigDecimal;
+
 import br.com.gustavoperini.stocksystem.utils.enums.ClotheSize;
+import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-public class ProductDto{
-    
-    @NotBlank(message = "name can not be blank")
-    @Size(max = 256)
+public class ProductDto {
+
+    @NotBlank(message = "Name cannot be blank")
+    @Size(max = 256, message = "Name must not exceed 256 characters")
     private String name;
 
-    @NotBlank(message = "it is mandatory to give a size")
+    @NotNull(message = "Size is mandatory")
     private ClotheSize size;
 
-    @Min(0)
+    @Min(value = 0, message = "Stock quantity cannot be negative")
     private int stockQuantity;
 
-    @Min(0)
-    private float uniquePrice;
+    @NotNull(message = "Unit price is mandatory")
+    @DecimalMin(value = "0.0", inclusive = true, message = "Unit price cannot be negative")
+    private BigDecimal unitPrice;
 
     public String getName() {
         return name;
@@ -44,12 +49,11 @@ public class ProductDto{
         this.stockQuantity = stockQuantity;
     }
 
-    public float getUniquePrice() {
-        return uniquePrice;
+    public BigDecimal getUnitPrice() {
+        return unitPrice;
     }
 
-    public void setUniquePrice(float uniquePrice) {
-        this.uniquePrice = uniquePrice;
+    public void setUnitPrice(BigDecimal unitPrice) {
+        this.unitPrice = unitPrice;
     }
-
 }

@@ -13,6 +13,8 @@ services:
       timeout: 5s
       retries: 5
       start_period: 30s
+    volumes:
+      - mysql_data:/var/lib/mysql
 
   phpmyadmin:
     image: phpmyadmin
@@ -27,3 +29,6 @@ services:
     depends_on:
       db:
         condition: service_healthy
+
+volumes:
+  mysql_data:
