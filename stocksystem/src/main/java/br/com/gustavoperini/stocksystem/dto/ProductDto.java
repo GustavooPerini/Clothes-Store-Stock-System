@@ -18,6 +18,7 @@ public class ProductDto {
     @NotNull(message = "Size is mandatory")
     private ClotheSize size;
 
+    @NotNull(message = "Stock Quantity is mandatory")
     @Min(value = 0, message = "Stock quantity cannot be negative")
     private int stockQuantity;
 
