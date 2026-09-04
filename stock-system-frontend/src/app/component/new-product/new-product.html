@@ -1,0 +1,53 @@
+<button matButton="outlined" (click)="goToMenu()">Voltar ao Menu</button>
+
+<div class="new-product-container">
+    <h1>Adicionar Novo Produto</h1>
+    <div class="new-product-card">
+        <form [formGroup]="productForm">
+            <div class="form-fields-container">
+                <mat-form-field floatLabel="always">
+                    <mat-label>Nome do Produto</mat-label>
+                    <input matInput type="text" formControlName="name">
+                </mat-form-field>
+                <mat-form-field floatLabel="always">
+                    <mat-label>Tamanho do Produto</mat-label>
+                    <mat-select formControlName="size">
+                        @for (option of clotheSizes; track $index) {
+                            <mat-option [value]="option">
+                                {{ option }}
+                            </mat-option>
+                        }
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field floatLabel="always">
+                    <mat-label>Quantidade em Estoque</mat-label>
+                    <input matInput type="number" min="0" formControlName="stockQuantity">
+                </mat-form-field>
+                <mat-form-field floatLabel="always">
+                    <mat-label>Preço</mat-label>
+                    <input matInput type="number" min="0" placeholder="0" formControlName="unitPrice">
+                    <span matTextPrefix>R$&nbsp;</span>
+                </mat-form-field>
+                <input 
+                    type="file"
+                    #fileInput
+                    style="display: none;"
+                    (change)="onFileSelected($event)"
+                >
+                <button
+                    type="button"
+                    matButton="outlined"
+                    (click)="fileInput.click()"
+                >
+                    Fazer upload da imagem do produto
+                </button>
+            </div>
+        </form>
+        <button
+            matButton="outlined"
+            (click)="onSubmit()"
+        >
+            Adicionar Produto
+        </button>
+    </div>
+</div>

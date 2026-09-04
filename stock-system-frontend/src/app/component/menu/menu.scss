@@ -1,0 +1,17 @@
+.menu-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    gap: 25px;
+
+    .menu-card {
+        background-color: orange;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        padding: 8rem 5rem;
+        border-radius: 50px;
+    }
+}

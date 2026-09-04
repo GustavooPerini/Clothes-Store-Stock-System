@@ -1,1 +1,29 @@
-<p>product-list works!</p>
+<button matButton="outlined" (click)="goToMenu()">Voltar ao Menu</button>
+<mat-grid-list cols="3">
+    @for (product of products(); track product.id) {
+        <mat-grid-tile>
+            <mat-card class="example-card" appearance="outlined">
+                <img mat-card-image src="https://material.angular.dev/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
+                <mat-card-content>
+                    <p>{{ product.name }}</p>
+                    <p>{{ product.unitPrice | currency:'BRL':'symbol':'1.2-2'}}</p>
+                    <p>{{ product.size }}</p>
+                    <p>{{ product.unitPrice }}</p>
+                </mat-card-content>
+                <mat-card-actions>
+                    <button matButton>EDITAR</button>
+                    <button matButton>DELETAR</button>
+                </mat-card-actions>
+            </mat-card>
+        </mat-grid-tile>
+    }
+     @empty {
+        <p>No product found in inventory!</p>
+    }
+</mat-grid-list>
+<mat-paginator
+    [length]="totalElements()"
+    [pageSize]="pageSize()"
+    (page)="handlePageEvent($event)"
+>
+</mat-paginator>

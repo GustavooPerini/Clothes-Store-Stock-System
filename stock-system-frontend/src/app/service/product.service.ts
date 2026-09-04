@@ -12,7 +12,7 @@ export class ProductService {
     private readonly URL_API = "http://localhost:8080/api/products"
     private readonly http = inject(HttpClient)
 
-    getProducts(page: number = 0, size: number = 5): Observable<PageResponse<ProductResponse>> {
+    getProducts(page: number = 0, size: number = 6): Observable<PageResponse<ProductResponse>> {
         const params = new HttpParams()
             .set('page', page.toString())
             .set('size', size.toString())
