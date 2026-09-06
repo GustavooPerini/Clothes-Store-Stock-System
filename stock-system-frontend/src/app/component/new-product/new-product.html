@@ -3,7 +3,7 @@
 <div class="new-product-container">
     <h1>Adicionar Novo Produto</h1>
     <div class="new-product-card">
-        <form [formGroup]="productForm">
+        <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
             <div class="form-fields-container">
                 <mat-form-field floatLabel="always">
                     <mat-label>Nome do Produto</mat-label>
@@ -41,13 +41,14 @@
                 >
                     Fazer upload da imagem do produto
                 </button>
+                <br>
+                <button
+                    matButton="outlined"
+                    type="submit"
+                >
+                    Adicionar Produto
+                </button>
             </div>
         </form>
-        <button
-            matButton="outlined"
-            (click)="onSubmit()"
-        >
-            Adicionar Produto
-        </button>
     </div>
 </div>

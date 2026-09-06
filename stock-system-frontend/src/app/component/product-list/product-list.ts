@@ -7,10 +7,19 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { Router } from '@angular/router';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { EditProductDialog } from '../dialogs/edit-product-dialog/edit-product-dialog';
+import { DeleteProductDialog } from '../dialogs/delete-product-dialog/delete-product-dialog';
 
 @Component({
     selector: 'app-product-list',
-    imports: [ CurrencyPipe, MatCardModule, MatButtonModule, MatGridListModule, MatPaginatorModule ],
+    imports: [ CurrencyPipe, 
+               MatCardModule,
+               MatButtonModule,
+               MatGridListModule,
+               MatPaginatorModule,
+               MatDialogModule
+            ],
     templateUrl: './product-list.html',
     styleUrl: './product-list.scss',
 })
@@ -18,6 +27,7 @@ export class ProductList implements OnInit{
     
     private readonly productService = inject(ProductService);
     private readonly router = inject(Router);
+    private readonly dialog = inject(MatDialog);
 
     products = signal<ProductResponse[]>([]);
     currentPage = signal<number>(0);
@@ -51,25 +61,38 @@ export class ProductList implements OnInit{
         this.loadProducts();
     }
 
-    deleteProduct(id: number) {
-        this.isLoading.set(true);
-        this.productService.deleteProduct(id).subscribe({
-            next: (res) => {
-                this.loadProducts();
-                this.isLoading.set(false);
-            },
-            error: (err) => {
-                console.log(err);
-                this.isLoading.set(false);
-            }
-        });
-    }
-
     handlePageEvent(e: PageEvent) {
         this.onPageChange(e.pageIndex);
     }
 
     goToMenu() {
         this.router.navigate(['']);
+    }
+
+    openEditDialog(product: ProductResponse) {
+        const dialogRef = this.dialog.open(EditProductDialog, {
+            data: product,
+            width: '500px'
+        });
+
+        dialogRef.afterClosed().subscribe((result) => {
+            // Se for true, quer dizer que eu fechei com dialogRef.close(true)
+            if(result) {
+                this.loadProducts();
+            }
+        });
+    }
+
+    openDeleteDialog(product: ProductResponse) {
+        const dialogRef = this.dialog.open(DeleteProductDialog, {
+            data: product,
+            width: '500px'
+        });
+
+        dialogRef.afterClosed().subscribe((result) => {
+            if(result) {
+                this.loadProducts();
+            }
+        });
     }
 }
