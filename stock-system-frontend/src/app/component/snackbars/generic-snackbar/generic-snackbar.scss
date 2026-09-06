@@ -1,0 +1,15 @@
+:host {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    gap: 1.5rem;
+}
+
+[matSnackBarLabel] {
+    flex-grow: 1;
+}
+
+[matSnackBarActions] {
+    flex-shrink: 0;
+}

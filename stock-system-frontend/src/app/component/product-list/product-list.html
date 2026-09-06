@@ -8,6 +8,7 @@
                     <p>{{ product.name }}</p>
                     <p>{{ product.unitPrice | currency:'BRL':'symbol':'1.2-2'}}</p>
                     <p>{{ product.size }}</p>
+                    <p>Quantidade em estoque: {{ product.stockQuantity }}</p>
                 </mat-card-content>
                 <mat-card-actions>
                     <button matButton (click)="openEditDialog(product)">EDITAR</button>

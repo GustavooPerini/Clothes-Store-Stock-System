@@ -3,7 +3,7 @@
 <div class="new-product-container">
     <h1>Adicionar Novo Produto</h1>
     <div class="new-product-card">
-        <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+        <form [formGroup]="productForm" #formDirective="ngForm" (ngSubmit)="onSubmit(formDirective)">
             <div class="form-fields-container">
                 <mat-form-field floatLabel="always">
                     <mat-label>Nome do Produto</mat-label>

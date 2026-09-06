@@ -10,6 +10,8 @@ import { Router } from '@angular/router';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { EditProductDialog } from '../dialogs/edit-product-dialog/edit-product-dialog';
 import { DeleteProductDialog } from '../dialogs/delete-product-dialog/delete-product-dialog';
+import { MatSnackBar, SimpleSnackBar } from '@angular/material/snack-bar';
+import { GenericSnackbar } from '../snackbars/generic-snackbar/generic-snackbar';
 
 @Component({
     selector: 'app-product-list',
@@ -28,6 +30,7 @@ export class ProductList implements OnInit{
     private readonly productService = inject(ProductService);
     private readonly router = inject(Router);
     private readonly dialog = inject(MatDialog);
+    private readonly snackbar = inject(MatSnackBar);
 
     products = signal<ProductResponse[]>([]);
     currentPage = signal<number>(0);
@@ -77,8 +80,12 @@ export class ProductList implements OnInit{
 
         dialogRef.afterClosed().subscribe((result) => {
             // Se for true, quer dizer que eu fechei com dialogRef.close(true)
-            if(result) {
+            if(result === "success") {
                 this.loadProducts();
+                this.openSnackbar(GenericSnackbar, "Produto editado com sucesso!");
+            }
+            else if (result === "error") {
+                this.openSnackbar(GenericSnackbar, "Erro ao editar produto!")
             }
         });
     }
@@ -90,9 +97,20 @@ export class ProductList implements OnInit{
         });
 
         dialogRef.afterClosed().subscribe((result) => {
-            if(result) {
+            if(result === "success") {
                 this.loadProducts();
+                this.openSnackbar(GenericSnackbar, "Produto deletado com sucesso!");
+            }
+            else if (result === "error") {
+                this.openSnackbar(GenericSnackbar, "Erro ao deletar produto!")
             }
         });
+    }
+
+    openSnackbar(component: any, message: string) {
+        this.snackbar.openFromComponent(component, {
+            data: message,
+            duration: 4000
+        })
     }
 }

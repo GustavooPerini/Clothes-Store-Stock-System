@@ -50,11 +50,11 @@ export class EditProductDialog implements OnInit{
             this.productService.updateProduct(this.data.id, this.updateProductForm.value).subscribe({
                 next: (res) => {
                     console.log(res);
-                    this.dialogRef.close(true);
+                    this.dialogRef.close("success");
                 },
                 error: (err) => {
                     console.log(err);
-                    this.dialogRef.close();
+                    this.dialogRef.close("error");
                 }
             });
         }

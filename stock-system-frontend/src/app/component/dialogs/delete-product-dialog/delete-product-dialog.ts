@@ -22,10 +22,10 @@ export class DeleteProductDialog {
     deleteProduct() {
         this.productService.deleteProduct(this.data.id).subscribe({
             next: (res) => {
-                this.dialogRef.close(true);
+                this.dialogRef.close("success");
             },
             error: (err) => {
-                this.dialogRef.close();
+                this.dialogRef.close("error");
             }
         });
     }
