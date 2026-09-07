@@ -34,3 +34,4 @@ build/
 
 ### Configurações de Ambiente ###
 application.properties
+uploads/

@@ -12,6 +12,7 @@ public class ProductResponseDto {
     private ClotheSize size;
     private int stockQuantity;
     private BigDecimal unitPrice;
+    private String imageUrl;
 
     public ProductResponseDto() {
     }
@@ -25,13 +26,15 @@ public class ProductResponseDto {
     }
 
     public static ProductResponseDto fromEntity(Product product) {
-        return new ProductResponseDto(
+        ProductResponseDto dto = new ProductResponseDto(
                 product.getId(),
                 product.getName(),
                 product.getSize(),
                 product.getStockQuantity(),
                 product.getUnitPrice()
         );
+        dto.setImageUrl(product.getImageUrl());
+        return dto;
     }
 
     public Long getId() {
@@ -72,5 +75,13 @@ public class ProductResponseDto {
 
     public void setUnitPrice(BigDecimal unitPrice) {
         this.unitPrice = unitPrice;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

@@ -55,7 +55,10 @@ export class NewProduct implements OnInit{
     }
 
     onFileSelected(e: Event) {
-        console.log(e)
+        const input = e.target as HTMLInputElement;
+        if(input.files && input.files.length > 0) {
+            this.selectedFile = input.files[0];
+        }
     }
 
     onSubmit(formDirective: FormGroupDirective) {
@@ -63,8 +66,24 @@ export class NewProduct implements OnInit{
             this.productService.createProduct(this.productForm.value).subscribe({
                 next: (res) => {
                     console.log(res);
-                    this.openSnackbar(GenericSnackbar, "Produto adicionado com sucesso!");
-                    formDirective.resetForm();
+                    if(this.selectedFile != null) {
+                        this.productService.uploadProductImage(res.id, this.selectedFile).subscribe({
+                            next: (res) => {
+                                this.openSnackbar(GenericSnackbar, "Produto e imagem adicionado com sucesso!");
+                                formDirective.resetForm();
+                                this.selectedFile = null;
+                            },
+                            error: (err) => {
+                                this.openSnackbar(GenericSnackbar, "Produto adicionado, mas erro no upload da imagem!");
+                                formDirective.resetForm();
+                                this.selectedFile = null;
+                            }
+                        })
+                    }
+                    else {
+                        this.openSnackbar(GenericSnackbar, "Produto adicionado com sucesso!");
+                        formDirective.resetForm();
+                    }
                 },
                 error: (err) => {
                     console.log(err);

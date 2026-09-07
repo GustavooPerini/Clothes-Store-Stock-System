@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import br.com.gustavoperini.stocksystem.dto.PageResponseDto;
 import br.com.gustavoperini.stocksystem.dto.ProductDto;
@@ -59,6 +61,11 @@ public class ProductController {
     public ResponseEntity<Void> deleteProduct(@PathVariable(value = "id") Long id) {
         this.productService.deleteProduct(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/{id}/image")
+    public ResponseEntity<ProductResponseDto> uploadProductImage(@PathVariable Long id, @RequestParam MultipartFile file) {
+        return ResponseEntity.ok(this.productService.uploadProductImage(id, file));
     }
 }
 

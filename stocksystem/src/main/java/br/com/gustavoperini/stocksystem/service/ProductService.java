@@ -4,6 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import br.com.gustavoperini.stocksystem.dto.PageResponseDto;
 import br.com.gustavoperini.stocksystem.dto.ProductDto;
@@ -16,9 +17,11 @@ import br.com.gustavoperini.stocksystem.repository.ProductRepository;
 public class ProductService {
 
     private final ProductRepository productRepository;
+    private final FileStorageService fileStorageService;
 
-    public ProductService(ProductRepository productRepository) {
+    public ProductService(ProductRepository productRepository, FileStorageService fileStorageService) {
         this.productRepository = productRepository;
+        this.fileStorageService = fileStorageService;
     }
 
     @Transactional
@@ -68,5 +71,22 @@ public class ProductService {
 
         this.productRepository.delete(product);
     }
-}
 
+    @Transactional
+    public ProductResponseDto uploadProductImage(Long productId, MultipartFile file) {
+        Product product = productRepository.findById(productId)
+            .orElseThrow(() -> new ResourceNotFoundException("Product with ID " + productId + " not found"));
+
+        if(product.getImageUrl() != null) {
+            String oldFilename = product.getImageUrl().replace("/uploads/products/", "");
+            fileStorageService.deleteFile(oldFilename);
+        }
+
+        String filename = fileStorageService.saveFile(file);
+
+        product.setImageUrl("/uploads/products/" + filename);
+        Product savedProduct = this.productRepository.save(product);
+
+        return  ProductResponseDto.fromEntity(savedProduct);
+    }
+}

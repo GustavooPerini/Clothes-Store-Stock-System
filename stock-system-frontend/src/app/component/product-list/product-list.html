@@ -3,7 +3,14 @@
     @for (product of products(); track product.id) {
         <mat-grid-tile>
             <mat-card class="example-card" appearance="outlined">
-                <img mat-card-image src="https://material.angular.dev/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
+                <img 
+                    mat-card-image 
+                    [src]="product.imageUrl ? 
+                        'http://localhost:8080' + product.imageUrl :
+                        'https://placehold.co/400x300?text=Sem+Imagem'
+                    " 
+                    [alt]="product.name"
+                    >
                 <mat-card-content>
                     <p>{{ product.name }}</p>
                     <p>{{ product.unitPrice | currency:'BRL':'symbol':'1.2-2'}}</p>
