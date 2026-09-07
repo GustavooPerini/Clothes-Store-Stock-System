@@ -1,4 +1,4 @@
-.new-product-container{
+.new-product-container {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -19,4 +19,11 @@
             flex-direction: column;
         }
     }
+}
+
+.file-feedback {
+    color: #2e7d32;                                                           
+    font-weight: 500;
+    margin-top: 8px;
+    text-align: center;
 }

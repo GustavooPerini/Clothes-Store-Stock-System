@@ -40,7 +40,7 @@ public class ProductController {
 
     @GetMapping
     public ResponseEntity<PageResponseDto<ProductResponseDto>> getAllProducts(
-            @PageableDefault(page = 0, size = 5, sort = "name", direction = Sort.Direction.ASC) Pageable pageable) {
+            @PageableDefault(page = 0, size = 6, sort = "name", direction = Sort.Direction.ASC) Pageable pageable) {
         return ResponseEntity.status(HttpStatus.OK).body(this.productService.listAllProducts(pageable));
     }
 

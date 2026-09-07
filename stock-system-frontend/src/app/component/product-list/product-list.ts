@@ -12,6 +12,7 @@ import { EditProductDialog } from '../dialogs/edit-product-dialog/edit-product-d
 import { DeleteProductDialog } from '../dialogs/delete-product-dialog/delete-product-dialog';
 import { MatSnackBar, SimpleSnackBar } from '@angular/material/snack-bar';
 import { GenericSnackbar } from '../snackbars/generic-snackbar/generic-snackbar';
+import { SellProductDialog } from '../dialogs/sell-product-dialog/sell-product-dialog';
 
 @Component({
     selector: 'app-product-list',
@@ -84,6 +85,14 @@ export class ProductList implements OnInit{
                 this.loadProducts();
                 this.openSnackbar(GenericSnackbar, "Produto editado com sucesso!");
             }
+            else if(result === "success-img") {
+                this.loadProducts();
+                this.openSnackbar(GenericSnackbar, "Produto e imagem editados com sucesso!");
+            }
+            else if(result === "error-img") {
+                this.loadProducts();
+                this.openSnackbar(GenericSnackbar, "Produto editado, mas erro no upload da imagem!");
+            }
             else if (result === "error") {
                 this.openSnackbar(GenericSnackbar, "Erro ao editar produto!")
             }
@@ -103,6 +112,23 @@ export class ProductList implements OnInit{
             }
             else if (result === "error") {
                 this.openSnackbar(GenericSnackbar, "Erro ao deletar produto!")
+            }
+        });
+    }
+
+    openSaleDialog(product: ProductResponse) {
+        const dialogRef = this.dialog.open(SellProductDialog, {
+            data: product,
+            width: '500px'
+        });
+
+        dialogRef.afterClosed().subscribe((result) => {
+            if(result === "success") {
+                this.loadProducts();
+                this.openSnackbar(GenericSnackbar, "Venda efetuada com sucesso!")
+            }
+            else if(result === "error") {
+                this.openSnackbar(GenericSnackbar, "Erro ao vender o produto!")
             }
         });
     }

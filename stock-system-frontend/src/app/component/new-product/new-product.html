@@ -41,6 +41,11 @@
                 >
                     Fazer upload da imagem do produto
                 </button>
+                @if (selectedFile != null) {
+                    <p class="file-feedback">
+                        Imagem selecionada: <strong>{{ selectedFile.name }}</strong>
+                    </p>
+                }
                 <br>
                 <button
                     matButton="outlined"

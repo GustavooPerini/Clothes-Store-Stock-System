@@ -1,0 +1,55 @@
+<button matButton="outlined" (click)="goToMenu()">Voltar ao Menu</button>
+
+<table mat-table [dataSource]="sales()">
+
+    <ng-container matColumnDef="imageUrl">
+        <th mat-header-cell *matHeaderCellDef>Imagem</th>
+        <td mat-cell *matCellDef="let element">
+            <img 
+                mat-card-image 
+                [src]="element.imageUrl ? 
+                    'http://localhost:8080' + element.imageUrl :
+                    'https://placehold.co/100x100?text=Sem+Imagem'
+                " 
+                [alt]="element.productName"
+                width="100px"
+                height="100px"
+            >
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="productName">
+        <th mat-header-cell *matHeaderCellDef> Nome </th>
+        <td mat-cell *matCellDef="let element"> {{element.productName}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="quantity">
+        <th mat-header-cell *matHeaderCellDef> Quantidade Vendida </th>
+        <td mat-cell *matCellDef="let element"> {{element.quantity}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="unitPrice">
+        <th mat-header-cell *matHeaderCellDef> Preço Unitário </th>
+        <td mat-cell *matCellDef="let element"> {{element.unitPrice | currency:'BRL':'symbol':'1.2-2'}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="totalAmount">
+        <th mat-header-cell *matHeaderCellDef> Preço Total </th>
+        <td mat-cell *matCellDef="let element"> {{element.totalAmount | currency:'BRL':'symbol':'1.2-2'}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="saleDate">
+        <th mat-header-cell *matHeaderCellDef> Data da Venda </th>
+        <td mat-cell *matCellDef="let element"> {{element.saleDate | date: 'dd/MM/yyyy HH:mm'}} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+
+<mat-paginator
+    [length]="totalElements()"
+    [pageSize]="pageSize()"
+    (page)="handlePageEvent($event)"
+>
+</mat-paginator>

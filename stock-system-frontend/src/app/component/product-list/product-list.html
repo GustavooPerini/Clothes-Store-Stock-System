@@ -10,15 +10,16 @@
                         'https://placehold.co/400x300?text=Sem+Imagem'
                     " 
                     [alt]="product.name"
-                    >
+                >
                 <mat-card-content>
-                    <p>{{ product.name }}</p>
-                    <p>{{ product.unitPrice | currency:'BRL':'symbol':'1.2-2'}}</p>
-                    <p>{{ product.size }}</p>
-                    <p>Quantidade em estoque: {{ product.stockQuantity }}</p>
+                    <p><strong>Nome: </strong>{{ product.name }}</p>
+                    <p><strong>Preço: </strong>{{ product.unitPrice | currency:'BRL':'symbol':'1.2-2'}}</p>
+                    <p><strong>Tamanho: </strong>{{ product.size }}</p>
+                    <p><strong>Quantidade em estoque: </strong>{{ product.stockQuantity }}</p>
                 </mat-card-content>
                 <mat-card-actions>
                     <button matButton (click)="openEditDialog(product)">EDITAR</button>
+                    <button matButton (click)="openSaleDialog(product)">VENDER</button>
                     <button matButton (click)="openDeleteDialog(product)">DELETAR</button>
                 </mat-card-actions>
             </mat-card>

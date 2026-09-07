@@ -1,0 +1,21 @@
+<h2 mat-dialog-title>Vender {{ data.name }}</h2>
+
+<mat-dialog-content>
+
+    <p><strong>Estoque disponível: </strong>{{ data.stockQuantity }} unidades</p>
+
+    <form [formGroup]="productForm" class="form-fields-container">
+        <mat-form-field floatLabel="always">
+            <mat-label>Quantidade a ser vendida</mat-label>
+            <input matInput type="number" formControlName="quantity" min="1" [max]="data.stockQuantity">
+            @if (productForm.get('quantity')?.hasError('max')) {
+                <mat-error>Quantidade não pode exceder o estoque ({{ data.stockQuantity }})</mat-error>
+            }
+        </mat-form-field>
+    </form>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+    <button mat-button mat-dialog-close>Cancelar</button>
+    <button mat-flat-button color="primary" (click)="onSell()">Vender</button>
+</mat-dialog-actions>

@@ -69,6 +69,11 @@ public class ProductService {
         Product product = this.productRepository.findById(productId)
                 .orElseThrow(() -> new ResourceNotFoundException("Product with ID " + productId + " not found"));
 
+        if(product.getImageUrl() != null) {
+            String oldFilename = product.getImageUrl().replace("/uploads/products/", "");
+            fileStorageService.deleteFile(oldFilename);
+        }
+
         this.productRepository.delete(product);
     }
 

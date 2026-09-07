@@ -35,6 +35,7 @@ export class EditProductDialog implements OnInit{
 
     // Control variables
     updateProductForm!: FormGroup
+    selectedFile: File | null = null;
 
     ngOnInit(): void {
         this.updateProductForm = this.formBuilder.group({
@@ -45,15 +46,32 @@ export class EditProductDialog implements OnInit{
         });
     }
 
+    onFileSelected(e: Event) {
+        const input = e.target as HTMLInputElement;
+        if(input.files && input.files.length > 0) {
+            this.selectedFile = input.files[0];
+        }
+    }
+
     onSave() {
         if(this.updateProductForm.valid) {
             this.productService.updateProduct(this.data.id, this.updateProductForm.value).subscribe({
                 next: (res) => {
-                    console.log(res);
-                    this.dialogRef.close("success");
+                    if(this.selectedFile) {
+                        this.productService.uploadProductImage(this.data.id, this.selectedFile).subscribe({
+                            next: (res) => {
+                                this.dialogRef.close("success-img");
+                            },
+                            error: (err) => {
+                                this.dialogRef.close("error-img");
+                            }
+                        })
+                    }
+                    else {
+                        this.dialogRef.close("success");
+                    }
                 },
                 error: (err) => {
-                    console.log(err);
                     this.dialogRef.close("error");
                 }
             });
