@@ -1,67 +1,156 @@
-<button matButton="outlined" (click)="goToMenu()">Voltar ao Menu</button>
+<div class="page-container">
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="header-titles">
+      <div class="breadcrumb">
+        <a routerLink="/">Menu</a> / <span>Estoque</span>
+      </div>
+      <h1>Estoque de Produtos</h1>
+      <p class="header-subtitle">
+        Gerencie as peças da loja, consulte disponibilidade e realize vendas rápidas.
+      </p>
+    </div>
+    <div class="header-actions">
+      <a routerLink="/new-product" class="primary-btn">
+        <mat-icon>add</mat-icon>
+        <span>Novo Produto</span>
+      </a>
+    </div>
+  </div>
 
-<div class="filter-bar">                                                                               
-    <!-- Search by Name -->                                                                              
-    <mat-form-field appearance="outline">                                                                
-    <mat-label>Buscar por nome</mat-label>                                                             
-    <input                                                                                             
-        matInput                                                                                         
-        [value]="searchTerm()"                                                                           
-        (input)="onSearch($any($event.target).value)"                                                    
-        placeholder="Ex: Camiseta, Calça..."                                                            
-    >                                                                                                  
-    </mat-form-field>                                                                                    
-                                                                                                        
-    <!-- Filter by Size -->                                                                              
-    <mat-form-field appearance="outline">
-    <mat-label>Filtrar por tamanho</mat-label>
-    <mat-select [value]="selectedSize()" (selectionChange)="onSizeChange($event.value)">
-        <mat-option value="">Todos os tamanhos</mat-option>
-        @for (size of clotheSizes; track size) {
+  <!-- Filter Toolbar -->
+  <div class="filter-card">
+    <div class="search-box">
+      <mat-icon class="search-icon">search</mat-icon>
+      <input 
+        type="text" 
+        [value]="searchTerm()" 
+        (input)="onSearch($any($event.target).value)" 
+        placeholder="Buscar produto por nome..."
+        class="custom-search-input"
+      />
+      @if (searchTerm()) {
+        <button class="clear-input-btn" (click)="onSearch('')">
+          <mat-icon>close</mat-icon>
+        </button>
+      }
+    </div>
+
+    <div class="filter-dropdown">
+      <mat-form-field appearance="outline" subscriptSizing="dynamic">
+        <mat-label>Tamanho</mat-label>
+        <mat-select [value]="selectedSize()" (selectionChange)="onSizeChange($event.value)">
+          <mat-option value="">Todos os tamanhos</mat-option>
+          @for (size of clotheSizes; track size) {
             <mat-option [value]="size">{{ size }}</mat-option>
-        }
-    </mat-select>
-    </mat-form-field>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
 
-    <!-- Clear Filters Button -->
     @if (searchTerm() || selectedSize()) {
-    <button matButton="outlined" (click)="clearFilters()">Limpar Filtros</button>
+      <button mat-button class="reset-filter-btn" (click)="clearFilters()">
+        <mat-icon>filter_alt_off</mat-icon>
+        <span>Limpar Filtros</span>
+      </button>
     }
-</div>
+  </div>
 
-<mat-grid-list cols="3">
-    @for (product of products(); track product.id) {
-        <mat-grid-tile>
-            <mat-card class="example-card" appearance="outlined">
-                <img 
-                    mat-card-image 
-                    [src]="product.imageUrl ? 
-                        'http://localhost:8080' + product.imageUrl :
-                        'https://placehold.co/400x300?text=Sem+Imagem'
-                    " 
-                    [alt]="product.name"
-                >
-                <mat-card-content>
-                    <p><strong>Nome: </strong>{{ product.name }}</p>
-                    <p><strong>Preço: </strong>{{ product.unitPrice | currency:'BRL':'symbol':'1.2-2'}}</p>
-                    <p><strong>Tamanho: </strong>{{ product.size }}</p>
-                    <p><strong>Quantidade em estoque: </strong>{{ product.stockQuantity }}</p>
-                </mat-card-content>
-                <mat-card-actions>
-                    <button matButton (click)="openEditDialog(product)">EDITAR</button>
-                    <button matButton (click)="openSaleDialog(product)">VENDER</button>
-                    <button matButton (click)="openDeleteDialog(product)">DELETAR</button>
-                </mat-card-actions>
-            </mat-card>
-        </mat-grid-tile>
-    }
-     @empty {
-        <p>No product found in inventory!</p>
-    }
-</mat-grid-list>
-<mat-paginator
-    [length]="totalElements()"
-    [pageSize]="pageSize()"
-    (page)="handlePageEvent($event)"
->
-</mat-paginator>
+  <!-- Responsive Product Grid -->
+  @if (isLoading()) {
+    <div class="loading-state">
+      <div class="spinner"></div>
+      <p>Carregando produtos...</p>
+    </div>
+  } @else {
+    <div class="products-grid">
+      @for (product of products(); track product.id) {
+        <div class="product-card">
+          <!-- Product Image & Badges -->
+          <div class="card-media">
+            <img 
+              [src]="product.imageUrl ? 'http://localhost:8080' + product.imageUrl : 'https://placehold.co/400x300/e2e8f0/64748b?text=Sem+Foto'" 
+              [alt]="product.name"
+              class="product-image"
+              loading="lazy"
+            />
+            <span class="size-badge">{{ product.size }}</span>
+
+            @if (product.stockQuantity <= 0) {
+              <span class="stock-pill out-of-stock">Esgotado</span>
+            } @else if (product.stockQuantity <= 5) {
+              <span class="stock-pill low-stock">{{ product.stockQuantity }} un. restantes</span>
+            } @else {
+              <span class="stock-pill in-stock">{{ product.stockQuantity }} un. em estoque</span>
+            }
+          </div>
+
+          <!-- Product Details -->
+          <div class="card-content">
+            <h3 class="product-name" [title]="product.name">{{ product.name }}</h3>
+            <div class="product-price">
+              {{ product.unitPrice | currency:'BRL':'symbol':'1.2-2' }}
+            </div>
+          </div>
+
+          <!-- Card Actions -->
+          <div class="card-actions">
+            <button 
+              type="button" 
+              class="btn-action sell-btn" 
+              [disabled]="product.stockQuantity <= 0"
+              (click)="openSaleDialog(product)"
+            >
+              <mat-icon>point_of_sale</mat-icon>
+              <span>Vender</span>
+            </button>
+
+            <div class="secondary-actions">
+              <button 
+                type="button" 
+                class="btn-icon edit-btn" 
+                (click)="openEditDialog(product)"
+                title="Editar produto"
+              >
+                <mat-icon>edit</mat-icon>
+              </button>
+
+              <button 
+                type="button" 
+                class="btn-icon delete-btn" 
+                (click)="openDeleteDialog(product)"
+                title="Excluir produto"
+              >
+                <mat-icon>delete_outline</mat-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+      } @empty {
+        <div class="empty-state">
+          <div class="empty-icon-wrap">
+            <mat-icon>search_off</mat-icon>
+          </div>
+          <h3>Nenhum produto encontrado</h3>
+          <p>Tente ajustar os filtros de busca ou cadastre uma nova peça no estoque.</p>
+          <a routerLink="/new-product" class="primary-btn">
+            <mat-icon>add</mat-icon>
+            <span>Cadastrar Produto</span>
+          </a>
+        </div>
+      }
+    </div>
+  }
+
+  <!-- Paginator -->
+  <div class="paginator-wrapper">
+    <mat-paginator
+      [length]="totalElements()"
+      [pageSize]="pageSize()"
+      [pageSizeOptions]="[6, 12, 24]"
+      (page)="handlePageEvent($event)"
+      showFirstLastButtons
+    >
+    </mat-paginator>
+  </div>
+</div>

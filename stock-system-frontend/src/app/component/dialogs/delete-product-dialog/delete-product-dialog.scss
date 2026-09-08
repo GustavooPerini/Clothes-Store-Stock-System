@@ -1,0 +1,139 @@
+.dialog-container {
+  display: flex;
+  flex-direction: column;
+  min-width: 300px;
+  max-width: 440px;
+  width: 100%;
+}
+
+.dialog-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 1.5rem 1.5rem 1rem;
+
+  .warning-icon-badge {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background-color: #fef2f2;
+    color: #dc2626;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+
+    mat-icon {
+      font-size: 24px;
+      width: 24px;
+      height: 24px;
+    }
+  }
+
+  .header-text {
+    h2 {
+      margin: 0 0 4px;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #0f172a;
+    }
+
+    .subtitle {
+      margin: 0;
+      font-size: 0.825rem;
+      color: #64748b;
+      line-height: 1.4;
+    }
+  }
+}
+
+.dialog-content {
+  padding: 0 1.5rem 1rem !important;
+}
+
+.product-preview-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0.75rem 1rem;
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+
+  .product-img {
+    width: 48px;
+    height: 48px;
+    border-radius: 8px;
+    object-fit: cover;
+    border: 1px solid #cbd5e1;
+    background: #e2e8f0;
+    flex-shrink: 0;
+  }
+
+  .product-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    overflow: hidden;
+
+    .product-name {
+      font-weight: 600;
+      font-size: 0.925rem;
+      color: #0f172a;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .product-meta {
+      display: flex;
+      gap: 6px;
+
+      .meta-tag {
+        font-size: 0.75rem;
+        font-weight: 600;
+        padding: 2px 6px;
+        border-radius: 4px;
+        background: #e2e8f0;
+        color: #475569;
+      }
+    }
+  }
+}
+
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 1.5rem !important;
+  border-top: 1px solid #f1f5f9;
+
+  .btn-cancel {
+    color: #64748b;
+    font-weight: 600;
+    border-radius: 8px;
+  }
+
+  .btn-delete {
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%) !important;
+    color: #ffffff !important;
+    font-weight: 600;
+    border-radius: 8px;
+    padding: 0.5rem 1.25rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: 0 4px 12px rgba(220, 38, 38, 0.25);
+
+    mat-icon {
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
+    }
+
+    &:hover:not(:disabled) {
+      box-shadow: 0 6px 16px rgba(220, 38, 38, 0.35);
+    }
+  }
+}

@@ -1,10 +1,39 @@
-<h2 mat-dialog-title>Deletar Produto</h2>
+<div class="dialog-container">
+  <!-- Warning Header -->
+  <div class="dialog-header">
+    <div class="warning-icon-badge">
+      <mat-icon>warning_amber</mat-icon>
+    </div>
+    <div class="header-text">
+      <h2>Excluir Produto</h2>
+      <p class="subtitle">Esta ação é irreversível e removerá o item do sistema.</p>
+    </div>
+  </div>
 
-<mat-dialog-content>
-    Tem certeza que gostaria de deletar o produto <strong>{{ data.name }}</strong>?
-</mat-dialog-content>
+  <mat-dialog-content class="dialog-content">
+    <div class="product-preview-card">
+      <img [src]="productImageUrl" [alt]="data.name" class="product-img">
+      <div class="product-info">
+        <span class="product-name">{{ data.name }}</span>
+        <div class="product-meta">
+          <span class="meta-tag">Tam: {{ data.size }}</span>
+          <span class="meta-tag">Estoque: {{ data.stockQuantity }} un</span>
+        </div>
+      </div>
+    </div>
+  </mat-dialog-content>
 
-<mat-dialog-actions>
-    <button mat-button mat-dialog-close>Cancelar</button>
-    <button mat-flat-button (click)="deleteProduct()">Confirmar</button>
-</mat-dialog-actions>
+  <mat-dialog-actions class="dialog-actions">
+    <button mat-button mat-dialog-close class="btn-cancel" [disabled]="isDeleting">
+      Cancelar
+    </button>
+    <button 
+      mat-flat-button 
+      class="btn-delete" 
+      (click)="deleteProduct()" 
+      [disabled]="isDeleting">
+      <mat-icon>{{ isDeleting ? 'hourglass_empty' : 'delete_forever' }}</mat-icon>
+      {{ isDeleting ? 'Excluindo...' : 'Sim, Excluir' }}
+    </button>
+  </mat-dialog-actions>
+</div>

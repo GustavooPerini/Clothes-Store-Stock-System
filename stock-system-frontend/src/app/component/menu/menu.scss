@@ -1,17 +1,176 @@
-.menu-container{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    gap: 25px;
+.dashboard-wrapper {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1.5rem 0;
 
-    .menu-card {
-        background-color: orange;
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-        padding: 8rem 5rem;
-        border-radius: 50px;
+  .dashboard-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+
+    .welcome-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: #e2e8f0;
+      color: #334155;
+      padding: 0.35rem 0.85rem;
+      border-radius: 9999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 1rem;
+
+      mat-icon {
+        font-size: 16px;
+        width: 16px;
+        height: 16px;
+      }
     }
+
+    h1 {
+      font-size: 2.25rem;
+      font-weight: 800;
+      color: #0f172a;
+      letter-spacing: -0.03em;
+      margin: 0 0 0.75rem 0;
+    }
+
+    .dashboard-subtitle {
+      font-size: 1.05rem;
+      color: #64748b;
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: 1.5;
+    }
+  }
+
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.75rem;
+
+    .action-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+
+      &:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 24px -4px rgba(15, 23, 42, 0.1), 0 4px 6px -2px rgba(15, 23, 42, 0.05);
+        border-color: #cbd5e1;
+
+        .card-action-btn mat-icon {
+          transform: translateX(4px);
+        }
+      }
+
+      .card-icon-wrapper {
+        width: 52px;
+        height: 52px;
+        border-radius: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1.25rem;
+
+        mat-icon {
+          font-size: 28px;
+          width: 28px;
+          height: 28px;
+        }
+
+        &.inventory-icon {
+          background: #eff6ff;
+          color: #2563eb;
+        }
+
+        &.create-icon {
+          background: #ecfdf5;
+          color: #059669;
+        }
+
+        &.sales-icon {
+          background: #f5f3ff;
+          color: #7c3aed;
+        }
+      }
+
+      .card-body {
+        flex: 1;
+
+        h2 {
+          font-size: 1.35rem;
+          font-weight: 700;
+          color: #0f172a;
+          margin: 0 0 0.5rem 0;
+          letter-spacing: -0.02em;
+        }
+
+        p {
+          font-size: 0.925rem;
+          color: #64748b;
+          line-height: 1.5;
+          margin: 0;
+        }
+      }
+
+      .card-footer {
+        margin-top: 1.75rem;
+
+        .card-action-btn {
+          display: inline-flex;
+          align-items: center;
+          justify-content: space-between;
+          width: 100%;
+          padding: 0.75rem 1.25rem;
+          border-radius: 10px;
+          text-decoration: none;
+          background: #0f172a;
+          color: #ffffff;
+          font-weight: 600;
+          font-size: 0.925rem;
+          transition: background 0.2s ease;
+
+          mat-icon {
+            font-size: 18px;
+            width: 18px;
+            height: 18px;
+            transition: transform 0.2s ease;
+          }
+
+          &:hover {
+            background: #1e293b;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 640px) {
+  .dashboard-wrapper {
+    padding: 0.5rem 0;
+
+    .dashboard-header {
+      h1 {
+        font-size: 1.75rem;
+      }
+      .dashboard-subtitle {
+        font-size: 0.9rem;
+      }
+    }
+
+    .cards-grid {
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
+    }
+  }
 }

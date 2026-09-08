@@ -1,0 +1,136 @@
+.app-header {
+  background: #ffffff;
+  border-bottom: 1px solid #e2e8f0;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
+
+  .header-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0.75rem 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .brand-link {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    text-decoration: none;
+    color: inherit;
+
+    .brand-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+      color: #38bdf8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 4px rgba(15, 23, 42, 0.15);
+
+      mat-icon {
+        font-size: 24px;
+        width: 24px;
+        height: 24px;
+      }
+    }
+
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+
+      .brand-name {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: #0f172a;
+        letter-spacing: -0.025em;
+        line-height: 1.2;
+      }
+
+      .brand-tagline {
+        font-size: 0.75rem;
+        color: #64748b;
+        font-weight: 500;
+      }
+    }
+  }
+
+  .nav-menu {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    overflow-x: auto;
+    padding-bottom: 2px;
+
+    .nav-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.5rem 0.85rem;
+      border-radius: 8px;
+      text-decoration: none;
+      color: #475569;
+      font-size: 0.875rem;
+      font-weight: 500;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+
+      mat-icon {
+        font-size: 18px;
+        width: 18px;
+        height: 18px;
+        color: #64748b;
+        transition: color 0.2s ease;
+      }
+
+      &:hover {
+        background-color: #f1f5f9;
+        color: #0f172a;
+
+        mat-icon {
+          color: #0f172a;
+        }
+      }
+
+      &.active {
+        background-color: #e0f2fe;
+        color: #0369a1;
+
+        mat-icon {
+          color: #0284c7;
+        }
+      }
+    }
+  }
+}
+
+.main-content {
+  min-height: calc(100vh - 75px);
+  padding: 1.5rem 1rem 3rem 1rem;
+  max-width: 1240px;
+  margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+  .app-header .header-container {
+    padding: 0.5rem 1rem;
+  }
+
+  .nav-menu {
+    width: 100%;
+    justify-content: flex-start;
+    padding-top: 0.25rem;
+
+    .nav-link {
+      padding: 0.4rem 0.65rem;
+      font-size: 0.8rem;
+    }
+  }
+}

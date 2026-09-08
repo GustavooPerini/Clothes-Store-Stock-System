@@ -1,15 +1,53 @@
 :host {
+  display: block;
+  width: 100%;
+}
+
+.snackbar-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+
+  .toast-icon {
+    color: #34d399;
+    font-size: 22px;
+    width: 22px;
+    height: 22px;
+    flex-shrink: 0;
+  }
+
+  .toast-message {
+    flex: 1;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #f8fafc;
+    line-height: 1.4;
+  }
+
+  .btn-close {
+    color: #94a3b8;
+    width: 32px;
+    height: 32px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    gap: 1.5rem;
-}
-
-[matSnackBarLabel] {
-    flex-grow: 1;
-}
-
-[matSnackBarActions] {
+    justify-content: center;
     flex-shrink: 0;
+
+    mat-icon {
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
+    }
+
+    &:hover {
+      color: #ffffff;
+    }
+  }
+
+  &.error-state {
+    .toast-icon {
+      color: #f87171;
+    }
+  }
 }

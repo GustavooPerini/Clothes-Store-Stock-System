@@ -4,31 +4,32 @@ import { ProductResponse } from '../../model/product-response.model';
 import { CurrencyPipe } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
-import { MatGridListModule } from '@angular/material/grid-list';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { EditProductDialog } from '../dialogs/edit-product-dialog/edit-product-dialog';
 import { DeleteProductDialog } from '../dialogs/delete-product-dialog/delete-product-dialog';
-import { MatSnackBar, SimpleSnackBar } from '@angular/material/snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { GenericSnackbar } from '../snackbars/generic-snackbar/generic-snackbar';
 import { SellProductDialog } from '../dialogs/sell-product-dialog/sell-product-dialog';
 import { CLOTHE_SIZES } from '../../model/types/clothe-size.type';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
     selector: 'app-product-list',
     imports: [ CurrencyPipe, 
                MatCardModule,
                MatButtonModule,
-               MatGridListModule,
                MatPaginatorModule,
                MatDialogModule,
                MatFormFieldModule,
                MatSelectModule,
-               MatInputModule
+               MatInputModule,
+               MatIconModule,
+               RouterLink
             ],
     templateUrl: './product-list.html',
     styleUrl: './product-list.scss',

@@ -1,8 +1,65 @@
-<div class="menu-container">
-    <h1>Loja Reverbe</h1>
-    <div class="menu-card">
-        <button matButton="outlined" routerLink="/products">Estoque</button>
-        <button matButton="outlined" routerLink="/new-product">Adicionar Novo Produto ao Estoque</button>
-        <button matButton="outlined" routerLink="/sales">Histórico de Vendas</button>
+<div class="dashboard-wrapper">
+  <div class="dashboard-header">
+    <div class="welcome-badge">
+      <mat-icon>storefront</mat-icon>
+      <span>Painel Principal</span>
     </div>
+    <h1>Controle de Estoque & Vendas</h1>
+    <p class="dashboard-subtitle">
+      Gerencie o catálogo de roupas, controle níveis de estoque em tempo real e acompanhe as vendas da loja.
+    </p>
+  </div>
+
+  <div class="cards-grid">
+    <!-- Card 1: Estoque -->
+    <div class="action-card">
+      <div class="card-icon-wrapper inventory-icon">
+        <mat-icon>inventory_2</mat-icon>
+      </div>
+      <div class="card-body">
+        <h2>Catálogo de Estoque</h2>
+        <p>Consulte todos os produtos, filtre por nome ou tamanho, edite informações e faça baixas de venda.</p>
+      </div>
+      <div class="card-footer">
+        <a routerLink="/products" class="card-action-btn">
+          <span>Acessar Estoque</span>
+          <mat-icon>arrow_forward</mat-icon>
+        </a>
+      </div>
+    </div>
+
+    <!-- Card 2: Novo Produto -->
+    <div class="action-card">
+      <div class="card-icon-wrapper create-icon">
+        <mat-icon>add_circle</mat-icon>
+      </div>
+      <div class="card-body">
+        <h2>Novo Produto</h2>
+        <p>Cadastre novas peças no sistema com foto, tamanho, quantidade em estoque e preço de venda.</p>
+      </div>
+      <div class="card-footer">
+        <a routerLink="/new-product" class="card-action-btn">
+          <span>Cadastrar Produto</span>
+          <mat-icon>arrow_forward</mat-icon>
+        </a>
+      </div>
+    </div>
+
+    <!-- Card 3: Histórico de Vendas -->
+    <div class="action-card">
+      <div class="card-icon-wrapper sales-icon">
+        <mat-icon>point_of_sale</mat-icon>
+      </div>
+      <div class="card-body">
+        <h2>Histórico de Vendas</h2>
+        <p>Acompanhe todas as vendas realizadas, data e hora de cada transação e o faturamento total.</p>
+      </div>
+      <div class="card-footer">
+        <a routerLink="/sales" class="card-action-btn">
+          <span>Ver Histórico</span>
+          <mat-icon>arrow_forward</mat-icon>
+        </a>
+      </div>
+    </div>
+  </div>
 </div>

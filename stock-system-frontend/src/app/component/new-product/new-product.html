@@ -1,59 +1,122 @@
-<button matButton="outlined" (click)="goToMenu()">Voltar ao Menu</button>
-
-<div class="new-product-container">
-    <h1>Adicionar Novo Produto</h1>
-    <div class="new-product-card">
-        <form [formGroup]="productForm" #formDirective="ngForm" (ngSubmit)="onSubmit(formDirective)">
-            <div class="form-fields-container">
-                <mat-form-field floatLabel="always">
-                    <mat-label>Nome do Produto</mat-label>
-                    <input matInput type="text" formControlName="name">
-                </mat-form-field>
-                <mat-form-field floatLabel="always">
-                    <mat-label>Tamanho do Produto</mat-label>
-                    <mat-select formControlName="size">
-                        @for (option of clotheSizes; track $index) {
-                            <mat-option [value]="option">
-                                {{ option }}
-                            </mat-option>
-                        }
-                    </mat-select>
-                </mat-form-field>
-                <mat-form-field floatLabel="always">
-                    <mat-label>Quantidade em Estoque</mat-label>
-                    <input matInput type="number" min="0" formControlName="stockQuantity">
-                </mat-form-field>
-                <mat-form-field floatLabel="always">
-                    <mat-label>Preço</mat-label>
-                    <input matInput type="number" min="0" placeholder="0" formControlName="unitPrice">
-                    <span matTextPrefix>R$&nbsp;</span>
-                </mat-form-field>
-                <input 
-                    type="file"
-                    #fileInput
-                    style="display: none;"
-                    (change)="onFileSelected($event)"
-                >
-                <button
-                    type="button"
-                    matButton="outlined"
-                    (click)="fileInput.click()"
-                >
-                    Fazer upload da imagem do produto
-                </button>
-                @if (selectedFile != null) {
-                    <p class="file-feedback">
-                        Imagem selecionada: <strong>{{ selectedFile.name }}</strong>
-                    </p>
-                }
-                <br>
-                <button
-                    matButton="outlined"
-                    type="submit"
-                >
-                    Adicionar Produto
-                </button>
-            </div>
-        </form>
+<div class="page-wrapper">
+  <div class="form-container">
+    
+    <!-- Header with breadcrumbs -->
+    <div class="form-header">
+      <a routerLink="/products" class="back-link">
+        <mat-icon>arrow_back</mat-icon>
+        Voltar para o Estoque
+      </a>
+      <h2>Cadastrar Novo Produto</h2>
+      <p class="subtitle">Preencha os dados da peça de roupa para adicionar ao catálogo da loja.</p>
     </div>
+
+    <!-- Main Card -->
+    <div class="form-card">
+      <form [formGroup]="productForm" #formDirective="ngForm" (ngSubmit)="onSubmit(formDirective)">
+        
+        <div class="form-grid">
+          <!-- Nome do Produto (Full width) -->
+          <mat-form-field appearance="outline" class="col-full">
+            <mat-label>Nome da Peça / Produto</mat-label>
+            <input matInput formControlName="name" placeholder="Ex: Camiseta Oversized Estonada" required>
+            <mat-icon matPrefix class="field-icon">checkroom</mat-icon>
+            @if (productForm.get('name')?.hasError('required') && productForm.get('name')?.touched) {
+              <mat-error>O nome do produto é obrigatório.</mat-error>
+            }
+          </mat-form-field>
+
+          <!-- Tamanho -->
+          <mat-form-field appearance="outline" class="col-half">
+            <mat-label>Tamanho</mat-label>
+            <mat-select formControlName="size" required>
+              @for (size of clotheSizes; track size) {
+                <mat-option [value]="size">{{ size }}</mat-option>
+              }
+            </mat-select>
+            <mat-icon matPrefix class="field-icon">straighten</mat-icon>
+            @if (productForm.get('size')?.hasError('required') && productForm.get('size')?.touched) {
+              <mat-error>Selecione um tamanho.</mat-error>
+            }
+          </mat-form-field>
+
+          <!-- Preço Unitário -->
+          <mat-form-field appearance="outline" class="col-half">
+            <mat-label>Preço Unitário (R$)</mat-label>
+            <input matInput type="number" step="0.01" min="0.01" formControlName="unitPrice" placeholder="0.00" required>
+            <span matPrefix class="currency-prefix">R$&nbsp;</span>
+            @if (productForm.get('unitPrice')?.hasError('required') && productForm.get('unitPrice')?.touched) {
+              <mat-error>O preço é obrigatório.</mat-error>
+            }
+            @if (productForm.get('unitPrice')?.hasError('min') && productForm.get('unitPrice')?.touched) {
+              <mat-error>Preço deve ser maior que zero.</mat-error>
+            }
+          </mat-form-field>
+
+          <!-- Quantidade em Estoque -->
+          <mat-form-field appearance="outline" class="col-full">
+            <mat-label>Quantidade Inicial em Estoque</mat-label>
+            <input matInput type="number" min="0" step="1" formControlName="stockQuantity" placeholder="0" required>
+            <mat-icon matPrefix class="field-icon">inventory_2</mat-icon>
+            <span matSuffix class="unit-suffix">unidades</span>
+            @if (productForm.get('stockQuantity')?.hasError('required') && productForm.get('stockQuantity')?.touched) {
+              <mat-error>A quantidade é obrigatória.</mat-error>
+            }
+            @if (productForm.get('stockQuantity')?.hasError('min') && productForm.get('stockQuantity')?.touched) {
+              <mat-error>Quantidade não pode ser negativa.</mat-error>
+            }
+          </mat-form-field>
+
+          <!-- Upload de Imagem (Full width) -->
+          <div class="col-full upload-section">
+            <label class="section-label">Foto do Produto (Opcional)</label>
+            
+            @if (!imagePreview) {
+              <div class="dropzone" (click)="fileInput.click()">
+                <input #fileInput type="file" (change)="onFileSelected($event)" accept="image/*" class="hidden-input">
+                <div class="dropzone-content">
+                  <div class="dropzone-icon-circle">
+                    <mat-icon>cloud_upload</mat-icon>
+                  </div>
+                  <div class="dropzone-text">
+                    <span class="primary-text">Clique para selecionar uma foto</span>
+                    <span class="secondary-text">PNG, JPG, WEBP até 10MB</span>
+                  </div>
+                  <button type="button" mat-stroked-button class="browse-btn" (click)="$event.stopPropagation(); fileInput.click()">
+                    Procurar arquivo
+                  </button>
+                </div>
+              </div>
+            } @else {
+              <div class="preview-container">
+                <div class="preview-card">
+                  <img [src]="imagePreview" alt="Prévia do produto" class="preview-image">
+                  <div class="preview-info">
+                    <span class="file-name">{{ selectedFile?.name }}</span>
+                    <span class="file-size">{{ ((selectedFile?.size || 0) / 1024).toFixed(1) }} KB</span>
+                  </div>
+                  <button type="button" mat-icon-button color="warn" class="btn-remove" (click)="removeImage()" title="Remover imagem">
+                    <mat-icon>delete_outline</mat-icon>
+                  </button>
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+
+        <!-- Form Actions -->
+        <div class="form-actions">
+          <button type="button" mat-button routerLink="/products" class="btn-cancel" [disabled]="isSubmitting">
+            Cancelar
+          </button>
+          <button type="submit" mat-flat-button class="btn-submit" [disabled]="productForm.invalid || isSubmitting">
+            <mat-icon>{{ isSubmitting ? 'hourglass_empty' : 'check_circle' }}</mat-icon>
+            {{ isSubmitting ? 'Salvando...' : 'Cadastrar Produto' }}
+          </button>
+        </div>
+
+      </form>
+    </div>
+
+  </div>
 </div>
