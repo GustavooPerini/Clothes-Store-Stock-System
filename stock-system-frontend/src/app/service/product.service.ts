@@ -12,10 +12,24 @@ export class ProductService {
     private readonly URL_API = "http://localhost:8080/api/products"
     private readonly http = inject(HttpClient)
 
-    getProducts(page: number = 0, size: number = 6): Observable<PageResponse<ProductResponse>> {
-        const params = new HttpParams()
+    getProducts(
+        page: number = 0,
+        size: number = 6,
+        name?: string,
+        clotheSize?: string
+    ): Observable<PageResponse<ProductResponse>> {
+        let params = new HttpParams()
             .set('page', page.toString())
             .set('size', size.toString())
+
+        if(name && name.trim().length > 0) {
+            params = params.set('name', name.trim());
+        }
+        
+        if(clotheSize && clotheSize.trim().length > 0) {
+            params = params.set('clotheSize', clotheSize.trim());
+        }
+
         return this.http.get<PageResponse<ProductResponse>>(`${this.URL_API}`, { params })
     }
 

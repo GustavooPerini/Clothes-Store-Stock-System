@@ -12,6 +12,7 @@ import br.com.gustavoperini.stocksystem.dto.ProductResponseDto;
 import br.com.gustavoperini.stocksystem.exception.ResourceNotFoundException;
 import br.com.gustavoperini.stocksystem.model.Product;
 import br.com.gustavoperini.stocksystem.repository.ProductRepository;
+import br.com.gustavoperini.stocksystem.utils.enums.ClotheSize;
 
 @Service
 public class ProductService {
@@ -37,9 +38,10 @@ public class ProductService {
     }
 
     @Transactional(readOnly = true)
-    public PageResponseDto<ProductResponseDto> listAllProducts(Pageable pageable) {
-        Page<ProductResponseDto> productPage = this.productRepository.findAll(pageable)
-                .map(ProductResponseDto::fromEntity);
+    public PageResponseDto<ProductResponseDto> listAllProducts(String name, ClotheSize size, Pageable pageable) {
+        String searchName = (name != null && !name.isBlank()) ? name.trim() : null;
+        Page<ProductResponseDto> productPage = this.productRepository.findByFilters(searchName, size, pageable)
+            .map(ProductResponseDto::fromEntity);
         return PageResponseDto.fromPage(productPage);
     }
 

@@ -20,6 +20,7 @@ import br.com.gustavoperini.stocksystem.dto.PageResponseDto;
 import br.com.gustavoperini.stocksystem.dto.ProductDto;
 import br.com.gustavoperini.stocksystem.dto.ProductResponseDto;
 import br.com.gustavoperini.stocksystem.service.ProductService;
+import br.com.gustavoperini.stocksystem.utils.enums.ClotheSize;
 import jakarta.validation.Valid;
 
 @RestController
@@ -40,8 +41,10 @@ public class ProductController {
 
     @GetMapping
     public ResponseEntity<PageResponseDto<ProductResponseDto>> getAllProducts(
+            @RequestParam(required = false) String name,
+            @RequestParam(name = "clotheSize", required = false) ClotheSize size,
             @PageableDefault(page = 0, size = 6, sort = "name", direction = Sort.Direction.ASC) Pageable pageable) {
-        return ResponseEntity.status(HttpStatus.OK).body(this.productService.listAllProducts(pageable));
+        return ResponseEntity.status(HttpStatus.OK).body(this.productService.listAllProducts(name, size, pageable));
     }
 
     @GetMapping("/{id}")

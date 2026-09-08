@@ -108,14 +108,14 @@ class ProductControllerTest {
     void shouldGetAllProducts() throws Exception {
         ProductResponseDto response = new ProductResponseDto(1L, "Blue Jeans", ClotheSize.M, 20, new BigDecimal("129.90"));
         PageResponseDto<ProductResponseDto> pageResponse = new PageResponseDto<>(List.of(response), 0, 10, 1, 1, true);
-        when(productService.listAllProducts(any(Pageable.class))).thenReturn(pageResponse);
+        when(productService.listAllProducts(any(), any(), any(Pageable.class))).thenReturn(pageResponse);
 
         mockMvc.perform(get("/api/products"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.content[0].name").value("Blue Jeans"))
                 .andExpect(jsonPath("$.totalElements").value(1));
 
-        verify(productService).listAllProducts(any(Pageable.class));
+        verify(productService).listAllProducts(any(), any(), any(Pageable.class));
     }
 
     @Test

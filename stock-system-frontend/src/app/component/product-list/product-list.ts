@@ -13,6 +13,10 @@ import { DeleteProductDialog } from '../dialogs/delete-product-dialog/delete-pro
 import { MatSnackBar, SimpleSnackBar } from '@angular/material/snack-bar';
 import { GenericSnackbar } from '../snackbars/generic-snackbar/generic-snackbar';
 import { SellProductDialog } from '../dialogs/sell-product-dialog/sell-product-dialog';
+import { CLOTHE_SIZES } from '../../model/types/clothe-size.type';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
     selector: 'app-product-list',
@@ -21,7 +25,10 @@ import { SellProductDialog } from '../dialogs/sell-product-dialog/sell-product-d
                MatButtonModule,
                MatGridListModule,
                MatPaginatorModule,
-               MatDialogModule
+               MatDialogModule,
+               MatFormFieldModule,
+               MatSelectModule,
+               MatInputModule
             ],
     templateUrl: './product-list.html',
     styleUrl: './product-list.scss',
@@ -38,7 +45,11 @@ export class ProductList implements OnInit{
     pageSize = signal<number>(6);
     totalPages = signal<number>(0);
     totalElements = signal<number>(0);
-    isLoading = signal<boolean>(false); 
+    isLoading = signal<boolean>(false);
+
+    clotheSizes = CLOTHE_SIZES;
+    searchTerm = signal<string>('');
+    selectedSize = signal<string>('');
 
     ngOnInit(): void {
         this.loadProducts();
@@ -46,17 +57,22 @@ export class ProductList implements OnInit{
 
     loadProducts() {
         this.isLoading.set(true);
-        this.productService.getProducts(this.currentPage(), this.pageSize()).subscribe({
-            next: (res) => {
-                this.products.set(res.content);
-                this.totalPages.set(res.totalPages);
-                this.totalElements.set(res.totalElements);
-                this.isLoading.set(false);
-            },
-            error: (err) => {
-                console.log(err);
-                this.isLoading.set(false);
-            }
+        this.productService.getProducts(
+                this.currentPage(),
+                this.pageSize(),
+                this.searchTerm(),
+                this.selectedSize()
+            ).subscribe({
+                next: (res) => {
+                    this.products.set(res.content);
+                    this.totalPages.set(res.totalPages);
+                    this.totalElements.set(res.totalElements);
+                    this.isLoading.set(false);
+                },
+                error: (err) => {
+                    console.log(err);
+                    this.isLoading.set(false);
+                }
         });
     }
 
@@ -138,5 +154,25 @@ export class ProductList implements OnInit{
             data: message,
             duration: 4000
         })
+    }
+
+    // Filter methods
+    onSearch(term: string) {
+        this.searchTerm.set(term);
+        this.currentPage.set(0);
+        this.loadProducts();
+    }
+
+    onSizeChange(size: string) {
+        this.selectedSize.set(size);
+        this.currentPage.set(0);
+        this.loadProducts();
+    }
+
+    clearFilters() {
+        this.searchTerm.set('');
+        this.selectedSize.set('');
+        this.currentPage.set(0);
+        this.loadProducts();
     }
 }

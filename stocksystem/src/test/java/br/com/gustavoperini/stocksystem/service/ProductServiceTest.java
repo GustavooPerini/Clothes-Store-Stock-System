@@ -103,14 +103,14 @@ class ProductServiceTest {
     void shouldListAllProducts() {
         Pageable pageable = PageRequest.of(0, 10);
         Page<Product> page = new PageImpl<>(List.of(product));
-        when(productRepository.findAll(pageable)).thenReturn(page);
+        when(productRepository.findByFilters(null, null, pageable)).thenReturn(page);
 
-        PageResponseDto<ProductResponseDto> responsePage = productService.listAllProducts(pageable);
+        PageResponseDto<ProductResponseDto> responsePage = productService.listAllProducts(null, null, pageable);
 
         assertNotNull(responsePage);
         assertEquals(1, responsePage.getTotalElements());
         assertEquals("Black T-Shirt", responsePage.getContent().get(0).getName());
-        verify(productRepository).findAll(pageable);
+        verify(productRepository).findByFilters(null, null, pageable);
     }
 
     @Test

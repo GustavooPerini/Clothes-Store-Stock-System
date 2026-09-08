@@ -1,4 +1,34 @@
 <button matButton="outlined" (click)="goToMenu()">Voltar ao Menu</button>
+
+<div class="filter-bar">                                                                               
+    <!-- Search by Name -->                                                                              
+    <mat-form-field appearance="outline">                                                                
+    <mat-label>Buscar por nome</mat-label>                                                             
+    <input                                                                                             
+        matInput                                                                                         
+        [value]="searchTerm()"                                                                           
+        (input)="onSearch($any($event.target).value)"                                                    
+        placeholder="Ex: Camiseta, Calça..."                                                            
+    >                                                                                                  
+    </mat-form-field>                                                                                    
+                                                                                                        
+    <!-- Filter by Size -->                                                                              
+    <mat-form-field appearance="outline">
+    <mat-label>Filtrar por tamanho</mat-label>
+    <mat-select [value]="selectedSize()" (selectionChange)="onSizeChange($event.value)">
+        <mat-option value="">Todos os tamanhos</mat-option>
+        @for (size of clotheSizes; track size) {
+            <mat-option [value]="size">{{ size }}</mat-option>
+        }
+    </mat-select>
+    </mat-form-field>
+
+    <!-- Clear Filters Button -->
+    @if (searchTerm() || selectedSize()) {
+    <button matButton="outlined" (click)="clearFilters()">Limpar Filtros</button>
+    }
+</div>
+
 <mat-grid-list cols="3">
     @for (product of products(); track product.id) {
         <mat-grid-tile>
